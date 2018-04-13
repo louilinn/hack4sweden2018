@@ -1,1 +1,8 @@
-# hack4sweden2018
+# TEAM MUMEÅ
+
+##NIMA
+	Backend
+	Bash Ninja
+	DJ
+
+##Louise
