@@ -1,8 +1,10 @@
 # TEAM MUMEÅ
 
-##NIMA
+## NIMA
 	Backend
 	Bash Ninja
 	DJ
 
-##Louise
+## Louise
+
+## MIRIAM
