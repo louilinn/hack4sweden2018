@@ -21,9 +21,9 @@ class SocRequest:
                 + '/ar/' + YEAR_STR
 
         response = requests.get(requestURL)
-        diagnoseJson = response.json()
 
         if(response.status_code == 200):
+            diagnoseJson = response.json()
             diagnoseDictData = diagnoseJson['data']
 
             totalRegionDict = {}
@@ -41,6 +41,7 @@ class SocRequest:
         else:
             print("Request Failed: ", response.status_code)
             # TODO: Raise exception or something.
+            raise RuntimeError('Diagnose not found.')
 
     # Returns average numbers of diagnose per year per region
     # as a JSON of key-value pairs.

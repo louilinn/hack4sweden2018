@@ -30,7 +30,7 @@ class GetHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-Type',
                              'text/plain; charset=utf-8')
                 self.end_headers()
-                self.wfile.write("(404) Invalid API Path".encode('utf-8'))
+                self.wfile.write("(404) Invalid Soc Diagnose Code".encode('utf-8'))
 
         else:
             self.send_response(404)
