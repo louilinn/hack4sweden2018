@@ -35,7 +35,7 @@ class SocRequest:
                     totalRegionDict[int(e['regionId'])] = int(e['varde'])
 
             for key in totalRegionDict:
-                totalRegionDict[key] = round(totalRegionDict[key]/3, 2)
+                totalRegionDict[key] = round(totalRegionDict[key]/antalAr, 2)
 
             return(totalRegionDict)
 
