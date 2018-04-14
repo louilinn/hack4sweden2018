@@ -1,7 +1,7 @@
 // IMPORTED DATA (or mock data)
-var xData = { "1": 222.5, "2": 100, "3": 36.3, "4": 33.0 };
-var yData = { "1": 22, "3": 3.3, "4": 3.1, "5": 3.0 };
-var regions = ["1", "3", "4"];
+var xData = {};
+var yData = {};
+var regions = [];
 
 
 function getDataSets(axis) {
