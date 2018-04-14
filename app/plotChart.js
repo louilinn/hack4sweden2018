@@ -21,7 +21,6 @@ function getData(url, axis) {
         dataType: "json",
         success: function (response) {
             console.log("success");
-            console.log("NY DATA:");
             data = response.data;
             description = response.data;
             axis === 'x' ? xDescription = response.description: yDescription = response.description;
