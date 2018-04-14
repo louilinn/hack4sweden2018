@@ -1,19 +1,48 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <title>korrelationskollen</title>
+    <meta charset="utf-8">
+    <title>korrelationskollen</title>
 </head>
+
 <body>
-  <h1>Välkommen till korrelationskollen!</h1>
-  <p>Här kan du enkelt välja olika faktorer och se hur de korrelerar!</p>
-  <p>Fokus är hur olika hälsoindikatorer korrelerar med andra faktorer. Tänk på att det som visas här är korrelation och inte ett samband mellan orsak och verkan. Faktorer kan till exempel samvariera p.g.a. att de har gemensamma orsaker och andra komplexa indirekta samband.</p>
-  <canvas id="myChart" width="400" height="400"></canvas>
+    <h1>Välkommen till korrelationskollen!</h1>
+    <p>Här kan du enkelt välja olika faktorer och se hur de korrelerar!</p>
+    <p>Fokus är hur olika hälsoindikatorer korrelerar med andra faktorer. Tänk på att det som visas här är korrelation och inte
+        ett samband mellan orsak och verkan. Faktorer kan till exempel samvariera p.g.a. att de har gemensamma orsaker och
+        andra komplexa indirekta samband.</p>
+    <canvas id="myChart" width="400" height="400"></canvas>
 </body>
+
 </html>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <script type="text/javascript">
+    function getData() {
+        $.ajax({
+            url: '/data',
+            method: 'GET',
+            async: false,
+            cache: false,
+            timeout: 5000,
+            dataType: "json",
+            success: function (data) {
+                console.log("success");
+                console.log("RECEIVED DATA:");
+                console.log(data);
+                // addData(myChart, data.regions, data.sunHours);
+            },
+            complete: function (data) {
+                console.log("completed");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error connecting to the Node.js server... ' + textStatus + " " + errorThrown);
+            }
+        });
+    }
 
 var ctx = document.getElementById("myChart");
 const radius = 10;
@@ -35,27 +64,61 @@ commonKeys.forEach((key) => {
     r: radius
   });
 })
+    function addData(chart, labels, data) {
+        labels = labels.map(String);
+        labels.forEach((l) => {
+            chart.data.labels.push(l);
+        })
+        data.forEach((d) => {
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(d);
+            });
+        })
+        chart.update();
+    }
 
-var data = {
-  datasets: [{
-    label: 'Bubble Dataset', data: datapoints
-  }]
-};
+    getData();
 
-var options = {
-  scales: {
-    xAxes: [{
-        type: 'linear',
-        position: 'bottom'
-      }]
-  }
-};
+    var ctx = document.getElementById("myChart");
 
-var myBubbleChart = new Chart(ctx,{
-  type: 'bubble',
-  data: data,
-  options: options
-});
+    var datapoints = [{
+        x: 2,
+        y: 1,
+        r: 10
+    }, {
+        x: 1,
+        y: 1,
+        r: 10
+    }, {
+        x: 2,
+        y: 5,
+        r: 10
+    }, {
+        x: 9,
+        y: 8,
+        r: 10
+    }];
+
+    var data = {
+        datasets: [{
+            label: 'Bubble Dataset', data: datapoints
+        }]
+    };
+
+    var options = {
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom'
+            }]
+        }
+    };
+
+    var myBubbleChart = new Chart(ctx, {
+        type: 'bubble',
+        data: data,
+        options: options
+    });
 
   /*var scatterChart = new Chart(ctx, {
   type: 'scatter',
