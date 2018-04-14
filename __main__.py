@@ -2,6 +2,7 @@ from http.server import BaseHTTPRequestHandler
 from urllib import parse
 from socStyrelsenRequest.socRequest import SocRequest
 from scbSource.scbRequest import scbRequest
+from scbSource.scbFortuneReq import scbFortuneRequest
 
 class GetHandler(BaseHTTPRequestHandler):
 
@@ -34,10 +35,15 @@ class GetHandler(BaseHTTPRequestHandler):
                 self.wfile.write("(404) Invalid Soc Diagnose Code".encode('utf-8'))
 
         elif(self.path.startswith('/scb')):
-            diagnose = self.path.strip('/soc')
+            dataset = self.path.strip('/scb')
             jsonData = None
             try:
-                jsonData = scbRequest().getJSON().encode('utf-8')
+                if (dataset.startswith('Unemployment')):
+                    jsonData = scbRequest().getJSON().encode('utf-8')
+                elif (dataset.startswith('Fortune')):
+                    jsonData = scbFortuneRequest().getJSON().encode('utf-8')
+                else:
+                    raise RuntimeError('Invalid scb request.')
 
                 self.send_response(200)
                 self.send_header('Content-Type',
@@ -50,7 +56,7 @@ class GetHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-Type',
                              'text/plain; charset=utf-8')
                 self.end_headers()
-                self.wfile.write("(404) Invalid Soc Diagnose Code".encode('utf-8'))
+                self.wfile.write("(404) Invalid SCB Request.".encode('utf-8'))
 
         elif(self.path.startswith('/')):
             if self.path == '/':

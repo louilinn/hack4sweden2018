@@ -5,13 +5,95 @@
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8" /> <!--Swedish charset-->
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>korrelationskollen</title>
+
+  <style>
+    .container {
+      display: inline-block;
+      cursor: pointer;
+      float:right;
+      position:relative;
+      margin-top: -9%;
+    }
+
+    .bar1, .bar2, .bar3 {
+      width: 35px;
+      height: 5px;
+      background-color: #333;
+      margin: 6px 0;
+      transition: 0.4s;
+    }
+
+    .change .bar1 {
+      -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+      transform: rotate(-45deg) translate(-9px, 6px);
+    }
+
+    .change .bar2 {opacity: 0;}
+
+    .change .bar3 {
+      -webkit-transform: rotate(45deg) translate(-8px, -8px);
+      transform: rotate(45deg) translate(-8px, -8px);
+    }
+
+    .sidenav {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #464749;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+    }
+
+    .sidenav a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 14px;
+      color: #FFFFFF;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidenav a:hover {
+      color: #f1f1f1;
+    }
+
+    .sidenav .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+
+    @media screen and (max-height: 450px) {
+      .sidenav {padding-top: 15px;}
+      .sidenav a {font-size: 14px;}
+    }
+  </style>
 </head>
 
 <body style="background-color: cornsilk;">
+
+  <div id="mySidenav" class="sidenav">
+    <a href="#">Om korrelationskollen!</a>
+    <a href="#">Devs!</a>
+    <a href="#">Källor</a>
+    <a href="#">FAQ</a>
+  </div>
+
   <div style="padding-left: 21%;padding-right: 21%;padding-top: 3%;">
     <div id="info">
         <h1 id="head">Välkommen till korrelationskollen!</h1>
         <p>Här kan du enkelt välja olika faktorer och se hur de korrelerar!</p>
+        <div class="container" onclick="togg()">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
+        </div>
 
     </div>
     <span>
@@ -19,14 +101,16 @@
             X-axel
             <select id="x">
                 <option>Välj en faktor</option>
-                <option value="/scb">Arbetslöshet</option>
+                <option value="/scbUnemployment">Arbetslöshet</option>
+                <option value="/scbFortune">Förmögenhet</option>
             </select>
         </div>
         <div style="padding:1%;">
             Y-axel
             <select id="y">
                 <option>Välj en faktor</option>
-                <option value="/scb">Arbetslöshet</option>
+                <option value="/scbUnemployment">Arbetslöshet</option>
+                <option value="/scbFortune">Förmögenhet</option>
             </select>
         </div>
     </span>
@@ -47,6 +131,31 @@
 
 </html>
 
+<script>
+
+  var clicks=0;
+  function myFunction(x) {
+    x.classList.toggle("change");
+  }
+
+  function togg(){
+    if(clicks%2==0){
+      openNav();
+    }else {
+      closeNav();
+    }
+
+    clicks++;
+  }
+
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
