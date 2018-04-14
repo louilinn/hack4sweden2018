@@ -7,7 +7,7 @@ class scbRequest:
     API_URL = 'http://api.scb.se/OV0104/v1/doris/sv/ssd/START/AM/AM0401/AM0401N/NAKUBefolkningLAr'
 
     def __init__(self):
-        self.jsonContent = open('req.json', 'rb').read()
+        self.jsonContent = open('./scbSource/req.json', 'rb').read()
         self.dataPattern = r"(?<=DATA=).*(?=;)"
         self.regionPattern = r"(?<=CODES\(\"region\"\)=).*(?=;)"
 

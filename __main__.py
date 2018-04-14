@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 from socStyrelsenRequest.socRequest import SocRequest
+from scbSource.scbRequest import scbRequest
 
 class GetHandler(BaseHTTPRequestHandler):
 
@@ -12,6 +13,25 @@ class GetHandler(BaseHTTPRequestHandler):
             jsonData = None
             try:
                 jsonData = SocRequest().getDiagnoseJson(diagnose).encode('utf-8')
+
+                self.send_response(200)
+                self.send_header('Content-Type',
+                        'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(jsonData)
+
+            except RuntimeError as e:
+                self.send_response(404)
+                self.send_header('Content-Type',
+                             'text/plain; charset=utf-8')
+                self.end_headers()
+                self.wfile.write("(404) Invalid Soc Diagnose Code".encode('utf-8'))
+
+        if(self.path.startswith('/scb')):
+            diagnose = self.path.strip('/soc')
+            jsonData = None
+            try:
+                jsonData = scbRequest().getJSON().encode('utf-8')
 
                 self.send_response(200)
                 self.send_header('Content-Type',
