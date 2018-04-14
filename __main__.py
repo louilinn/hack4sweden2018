@@ -6,14 +6,8 @@ class GetHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
 
-        if(self.path == '/'):
-            self.send_response(200)
-            self.send_header('Content-Type',
-                         'text/html; charset=utf-8')
-            self.end_headers()
-            self.wfile.write(open("./app/index.html").read().encode('utf-8'))
 
-        elif(self.path.startswith('/soc')):
+        if(self.path.startswith('/soc')):
             diagnose = self.path.strip('/soc')
             jsonData = None
             try:
@@ -31,6 +25,18 @@ class GetHandler(BaseHTTPRequestHandler):
                              'text/plain; charset=utf-8')
                 self.end_headers()
                 self.wfile.write("(404) Invalid Soc Diagnose Code".encode('utf-8'))
+
+        elif(self.path.startswith('/')):
+            if self.path == '/':
+                self.path += 'index.html'
+                
+            self.send_response(200)
+            self.send_header('Content-Type',
+                         'text/html; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(open("./app" + self.path).read().encode('utf-8'))
+
+
 
         else:
             self.send_response(404)
