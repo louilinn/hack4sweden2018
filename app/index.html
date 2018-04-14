@@ -2,106 +2,154 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <title>korrelationskollen</title>
+    <meta charset="utf-8">
+    <title>korrelationskollen</title>
 </head>
 
 <body>
-  <h1>Välkommen till korrelationskollen!</h1>
-  <p>Här kan du enkelt välja olika faktorer och se hur de korrelerar!</p>
-  <p>Fokus är hur olika hälsoindikatorer korrelerar med andra faktorer. Tänk på att det som visas här är korrelation och inte
-    ett samband mellan orsak och verkan. Faktorer kan till exempel samvariera p.g.a. att de har gemensamma orsaker och
-    andra komplexa indirekta samband.</p>
-    <canvas id="myChart" width="400" height="400"></canvas>
-  </body>
+    <div id="info">
+        <h1>Välkommen till korrelationskollen!</h1>
+        <p>Här kan du enkelt välja olika faktorer och se hur de korrelerar!</p>
+        <p>Fokus är hur olika hälsoindikatorer korrelerar med andra faktorer. Tänk på att det som visas här är korrelation och
+            inte ett samband mellan orsak och verkan. Faktorer kan till exempel samvariera p.g.a. att de har gemensamma orsaker
+            och andra komplexa indirekta samband.</p>
+    </div>
+    <div id="data">
+        <canvas id="myChart"></canvas>
+    </div>
+</body>
 
-  </html>
+</html>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-  <script type="text/javascript">
-  function getData() {
-    $.ajax({
-      url: '/data',
-      method: 'GET',
-      async: false,
-      cache: false,
-      timeout: 5000,
-      dataType: "json",
-      success: function (data) {
-        console.log("success");
-        console.log("RECEIVED DATA:");
-        console.log(data);
-        // addData(myChart, data.regions, data.sunHours);
-      },
-      complete: function (data) {
-        console.log("completed");
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        alert('Error connecting to the Node.js server... ' + textStatus + " " + errorThrown);
-      }
-    });
-  };
-
-  function addData(chart, labels, data) {
-    labels = labels.map(String);
-    labels.forEach((l) => {
-      chart.data.labels.push(l);
-    })
-    data.forEach((d) => {
-      chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(d);
-      });
-    })
-    chart.update();
-  };
-  //getData();
-
-  // GRAPHICAL SETUP AND PARAMETERS
-  var ctx = document.getElementById("myChart");
-  const radius = 10;
-
-  // IMPORTED DATA (or mock data)
-  const suicide = {"1": 222.5, "2": 100, "3": 36.3, "4": 33.0};
-  const mock = {"1": 22, "3": 3.3, "4": 3.1, "5": 3.0};
-
-  // PARSING DATA
-  function convertToPlotFormat(factor1, factor2){
-    function intersectionKeys(o1, o2){
-      return Object.keys(o1).filter(key => key in o2)
+<script type="text/javascript">
+    function getData() {
+        $.ajax({
+            url: '/data',
+            method: 'GET',
+            async: false,
+            cache: false,
+            timeout: 5000,
+            dataType: "json",
+            success: function (data) {
+                console.log("success");
+                console.log("RECEIVED DATA:");
+                console.log(data);
+                // addData(myChart, data.regions, data.sunHours);
+            },
+            complete: function (data) {
+                console.log("completed");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error connecting to the Node.js server... ' + textStatus + " " + errorThrown);
+            }
+        });
     };
-    const commonKeys = intersectionKeys(factor1, factor2);
-    datapoints = [];
-    commonKeys.forEach((key) => {
-      datapoints.push({
-        x: factor1[key],
-        y: factor2[key],
-        r: radius
-      });
-    });
-    return datapoints;
-  };
-  datapoints = convertToPlotFormat(mock, suicide);
 
-  // CHART CREATION
-  var data = {
-    datasets: [{
-      label: 'Bubble Dataset', data: datapoints
-    }]
-  };
-  var options = {
-    scales: {
-      xAxes: [{
-        type: 'linear',
-        position: 'bottom'
-      }]
-    }
-  };
-  var myBubbleChart = new Chart(ctx, {
-    type: 'bubble',
-    data: data,
-    options: options
-  });
+    function addData(chart, labels, data) {
+        labels = labels.map(String);
+        labels.forEach((l) => {
+            chart.data.labels.push(l);
+        })
+        data.forEach((d) => {
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(d);
+            });
+        })
+        chart.update();
+    };
+    //getData();
+
+    // GRAPHICAL SETUP AND PARAMETERS
+    var ctx = document.getElementById("myChart");
+    const radius = 10;
+
+    // DATA CHOICES
+    choiceFactor1 = "Självmord";
+    choiceFactor2 = "Sjukskrivning";
+
+    // IMPORTED DATA (or mock data)
+    const suicide = { "1": 222.5, "2": 100, "3": 36.3, "4": 33.0 };
+    const mock = { "1": 22, "3": 3.3, "4": 3.1, "5": 3.0 };
+    const regions = ["Umea", "Malmö", "Sthlm"];
+
+    // PARSING DATA
+    function convertToPlotFormat(factor1, factor2) {
+        function intersectionKeys(o1, o2) {
+            return Object.keys(o1).filter(key => key in o2)
+        };
+        const commonKeys = intersectionKeys(factor1, factor2);
+        datapoints = [];
+        commonKeys.forEach((key) => {
+            datapoints.push({
+                x: factor1[key],
+                y: factor2[key],
+                r: radius
+            });
+        });
+        return datapoints;
+    };
+    datapoints = convertToPlotFormat(mock, suicide);
+
+    // CHART CREATION
+    var plotData = {
+        datasets: [{
+            label: 'Vald data',
+            data: datapoints,
+            backgroundColor: "#42d9f4",
+            borderColor: "#000000"
+        }],
+    };
+    var options = {
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom',
+                ticks: {
+                    beginAtZero: true
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: choiceFactor1
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: choiceFactor2
+                }
+            }]
+        },
+        // hover settings
+        tooltips: {
+            backgroundColor: "#A4A4A4",
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    console.log(tooltipItem);
+                    console.log(data);
+                    var label = regions[tooltipItem.index] || '';
+
+                    if (label) {
+                        label += ': ';
+                    }
+                    label += Math.round(tooltipItem.yLabel);
+                    return label;
+                }
+            }
+        },
+        legend: {
+            display: false
+        },
+    };
+    var myBubbleChart = new Chart(ctx, {
+        type: 'bubble',
+        data: plotData,
+        options: options
+    });
 
 </script>
