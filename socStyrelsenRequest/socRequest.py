@@ -39,7 +39,7 @@ class SocRequest:
                 totalRegionDict[key] = round(float(totalRegionDict[key])/antalAr, 2)
 
             descAndData = {
-                'description': 'foo',
+                'description': self.getDiagnoseTitel(diagnose),
                 'data': totalRegionDict
             }
             return(descAndData)
@@ -52,6 +52,12 @@ class SocRequest:
     # as a JSON of key-value pairs.
     def getDiagnoseJson(self, diagnose):
         return json.dumps(self.getDiagnoseDict(diagnose))
+
+    def getDiagnoseTitel(self, diagnose):
+        URL = 'http://sdb.socialstyrelsen.se/api/v1/sv/dodsorsaker/diagnos/' + diagnose
+        response = requests.get(URL)
+        json = response.json()
+        return(json[0]['text'])
 
     def getDiagnoseIdAndName(self):
         diagnoseURL = 'http://sdb.socialstyrelsen.se/api/v1/sv/dodsorsaker/diagnos'
