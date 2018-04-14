@@ -28,7 +28,6 @@ class GetHandler(BaseHTTPRequestHandler):
                 self.wfile.write("(404) Invalid Soc Diagnose Code".encode('utf-8'))
 
         elif(self.path.startswith('/scb')):
-            diagnose = self.path.strip('/soc')
             jsonData = None
             try:
                 jsonData = scbRequest().getJSON().encode('utf-8')
@@ -44,7 +43,7 @@ class GetHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-Type',
                              'text/plain; charset=utf-8')
                 self.end_headers()
-                self.wfile.write("(404) Invalid Soc Diagnose Code".encode('utf-8'))
+                self.wfile.write("(404) Invalid SCB request".encode('utf-8'))
 
         elif(self.path.startswith('/')):
             if self.path == '/':
