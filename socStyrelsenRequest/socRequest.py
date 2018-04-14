@@ -14,7 +14,7 @@ class SocRequest:
         REGION_STR = '1,3,4,5,6,7,8,9,10,12,13,14,' \
                 '17,18,19,20,21,22,23,24,25'
         YEAR_STR = '2007,2008,2009,2010,2011,2012,2013,2014,2015,2016'
-        antalAr = 10
+        antalAr = YEAR_STR.count(',') + 1
 
         requestURL = self.API_URL + 'dodsorsaker/resultat/matt/1'\
                 + '/diagnos/2026/kon/3' \
