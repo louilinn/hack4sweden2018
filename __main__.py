@@ -27,7 +27,7 @@ class GetHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write("(404) Invalid Soc Diagnose Code".encode('utf-8'))
 
-        if(self.path.startswith('/scb')):
+        elif(self.path.startswith('/scb')):
             diagnose = self.path.strip('/soc')
             jsonData = None
             try:
