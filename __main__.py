@@ -6,6 +6,7 @@ class GetHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
 
+        # Här är funktionen!
 
         if(self.path.startswith('/socDiagnoses')):
             self.send_response(200)
