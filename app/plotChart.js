@@ -5,7 +5,7 @@ var regions = [];
 
 
 function getDataSets(axis) {
-    url = '/soc' + $("#" + axis + " :selected").val();
+    url = $("#" + axis + " :selected").val();
     getData(url, axis);
 }
 
