@@ -19,7 +19,7 @@ class GetHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(jsonData)
 
-            except Exception as e:
+            except RuntimeError as e:
                 self.send_response(404)
                 self.send_header('Content-Type',
                              'text/plain; charset=utf-8')

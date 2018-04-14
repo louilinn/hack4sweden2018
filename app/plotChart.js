@@ -1,6 +1,17 @@
-function getData() {
+// IMPORTED DATA (or mock data)
+var xData = {};
+var yData = {};
+var regions = [];
+
+
+function getDataSets(axis) {
+    url = $("#" + axis + " :selected").val();
+    getData(url, axis);
+}
+
+function getData(url, axis) {
     $.ajax({
-        url: '/data',
+        url: url,
         method: 'GET',
         async: false,
         cache: false,
@@ -8,9 +19,11 @@ function getData() {
         dataType: "json",
         success: function (data) {
             console.log("success");
-            console.log("RECEIVED DATA:");
+            console.log("NY DATA:");
             console.log(data);
-            // addData(myChart, data.regions, data.sunHours);
+            axis === "x" ? xData = data : yData = data;
+            convertedData = convertToPlotFormat(xData, yData);
+            addData(myChart, Object.keys(xData), convertedData);
         },
         complete: function (data) {
             console.log("completed");
@@ -22,31 +35,13 @@ function getData() {
 };
 
 function addData(chart, labels, data) {
-    labels = labels.map(String);
-    labels.forEach((l) => {
-        chart.data.labels.push(l);
-    })
-    data.forEach((d) => {
-        chart.data.datasets.forEach((dataset) => {
-            dataset.data.push(d);
-        });
-    })
-    chart.update();
+    myBubbleChart.destroy();
+    myBubbleChart = replot(labels, data);
 };
-//getData();
 
 // GRAPHICAL SETUP AND PARAMETERS
 var ctx = document.getElementById("myChart");
 const radius = 10;
-
-// DATA CHOICES
-choiceFactor1 = "Självmord";
-choiceFactor2 = "Sjukskrivning";
-
-// IMPORTED DATA (or mock data)
-const suicide = { "1": 222.5, "2": 100, "3": 36.3, "4": 33.0 };
-const mock = { "1": 22, "3": 3.3, "4": 3.1, "5": 3.0 };
-const regions = ["Umea", "Malmö", "Sthlm"];
 
 // PARSING DATA
 function convertToPlotFormat(factor1, factor2) {
@@ -64,69 +59,76 @@ function convertToPlotFormat(factor1, factor2) {
     });
     return datapoints;
 };
-datapoints = convertToPlotFormat(mock, suicide);
 
-// CHART CREATION
-var plotData = {
-    datasets: [{
-        label: 'Vald data',
-        data: datapoints,
-        backgroundColor: "#42d9f4",
-        borderColor: "#000000"
-    }],
-};
-var options = {
-    scales: {
-        xAxes: [{
-            type: 'linear',
-            position: 'bottom',
-            ticks: {
-                beginAtZero: true
-            },
-            scaleLabel: {
-                display: true,
-                labelString: $("#select1 :selected").text()
-            }
+// INIT
+datapoints = convertToPlotFormat(xData, yData);
+var myBubbleChart = replot(regions, datapoints);
+
+function replot(labels, datapoints) {
+    // CHART CREATION
+    var plotData = {
+        datasets: [{
+            label: 'Vald data',
+            data: datapoints,
+            backgroundColor: "#42d9f4",
+            borderColor: "#000000"
         }],
-        yAxes: [{
-            ticks: {
-                beginAtZero: true
-            },
-            scaleLabel: {
-                display: true,
-                labelString: choiceFactor2
-            }
-        }]
-    },
-    // Hover settings
-    tooltips: {
-        backgroundColor: "#A4A4A4",
-        callbacks: {
-            label: function (tooltipItem, data) {
-                var label = regions[tooltipItem.index] || '';
-
-                if (label) {
-                    label += ': ';
+        labels: labels
+    };
+    var options = {
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom',
+                ticks: {
+                    beginAtZero: true
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: $("#x :selected").text()
                 }
-                label += Math.round(tooltipItem.yLabel);
-                return label;
+            }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: $("#y :selected").text()
+                }
+            }]
+        },
+        // Hover settings
+        tooltips: {
+            backgroundColor: "#A4A4A4",
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    var label = regions[tooltipItem.index] || '';
+
+                    if (label) {
+                        label += ': ';
+                    }
+                    label += Math.round(tooltipItem.xLabel);
+                    label += ", ";
+                    label += Math.round(tooltipItem.yLabel);
+                    return label;
+                }
             }
-        }
-    },
-    legend: {
-        display: false
-    },
+        },
+        legend: {
+            display: false
+        },
+    };
+    var myBubbleChart = new Chart(ctx, {
+        type: 'bubble',
+        data: plotData,
+        options: options
+    });
+    return myBubbleChart;
 };
-var myBubbleChart = new Chart(ctx, {
-    type: 'bubble',
-    data: plotData,
-    options: options
-});
 
 // Choose parameters
-$("select").change(() => {
-    console.log("CHANGE");
-    myBubbleChart.options.scales.xAxes[0].scaleLabel.labelString = $("#select1 :selected").text()
-    myBubbleChart.options.scales.yAxes[0].scaleLabel.labelString = $("#select2 :selected").text()
+$("select").change(function (e) {
+    getDataSets(e.target.id);
     myBubbleChart.update();
 })
