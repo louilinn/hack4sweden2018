@@ -1,6 +1,6 @@
 from socRequest import SocRequest
-
-socRq1 = SocRequest()
-socRq1.printHeader()
-for i in range(2000, 2017):
-    socRq1.printYearTotal(i)
+import timeit
+start = timeit.timeit()
+print(SocRequest().getSuicideJson())
+end = timeit.timeit()
+print("Runtime: ", end-start)
