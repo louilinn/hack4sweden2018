@@ -6,12 +6,13 @@ class GetHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
 
-        if(self.path == '/soc2026'):
+        if(self.path.startswith('/soc')):
+            diagnose = self.path.strip('/soc')
             self.send_response(200)
             self.send_header('Content-Type',
                          'text/plain; charset=utf-8')
             self.end_headers()
-            self.wfile.write(SocRequest().getDiagnoseJson('2026').encode('utf-8'))
+            self.wfile.write(SocRequest().getDiagnoseJson(diagnose).encode('utf-8'))
 
         else:
             self.send_response(404)
