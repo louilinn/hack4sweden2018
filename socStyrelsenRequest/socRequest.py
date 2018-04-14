@@ -39,7 +39,7 @@ class SocRequest:
                 totalRegionDict[key] = round(float(totalRegionDict[key])/antalAr, 2)
 
             descAndData = {
-                'description': self.getDiagnoseTitel(diagnose),
+                'description': self.getDiagnoseTitel(diagnose) + ' (per 100 tusen invånare 2006-2016)',
                 'data': totalRegionDict
             }
             return(descAndData)
