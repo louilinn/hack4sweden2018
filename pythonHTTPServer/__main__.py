@@ -1,4 +1,4 @@
-# http_server_GET.py
+# OLD NOT USED!
 
 # Make other folders in project visible
 import sys
@@ -47,7 +47,6 @@ class GetHandler(BaseHTTPRequestHandler):
         self.wfile.write(SocRequest().getSuicideJson().encode('utf-8'))
         #self.wfile.write(message.encode('utf-8'))
         print(message)
-
 
 if __name__ == '__main__':
     from http.server import HTTPServer
