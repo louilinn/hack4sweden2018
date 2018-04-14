@@ -8,3 +8,11 @@
 ## Louise
 
 ## Miriam
+
+## Fredrik
+	Backend
+	API
+
+## Emilia
+	Backend
+	API
