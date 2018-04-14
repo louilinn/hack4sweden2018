@@ -13,12 +13,13 @@ class GetHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(open("./app/index.html").read().encode('utf-8'))
 
-        elif(self.path == '/soc2026'):
+        elif(self.path.startswith('/soc')):
+            diagnose = self.path.strip('/soc')
             self.send_response(200)
             self.send_header('Content-Type',
                          'application/json; charset=utf-8')
             self.end_headers()
-            self.wfile.write(SocRequest().getDiagnoseJson('2026').encode('utf-8'))
+            self.wfile.write(SocRequest().getDiagnoseJson(diagnose).encode('utf-8'))
 
         else:
             self.send_response(404)
