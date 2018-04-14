@@ -57,7 +57,7 @@ class SocRequest:
         URL = 'http://sdb.socialstyrelsen.se/api/v1/sv/dodsorsaker/diagnos/' + diagnose
         response = requests.get(URL)
         json = response.json()
-        return(json[0]['text'])
+        return('Dödsorsak: ' + json[0]['text'])
 
     def getDiagnoseIdAndName(self):
         diagnoseURL = 'http://sdb.socialstyrelsen.se/api/v1/sv/dodsorsaker/diagnos'
@@ -67,8 +67,8 @@ class SocRequest:
         diagnoseIdAndName = {}
         for e in diagnoseJson:
             if len(e['id']) < 3:
-                diagnoseIdAndName[e['id']] = e['text']    # Returns average numbers of suicides per year per region
-            diagnoseIdAndName['2026'] = ['Avsiktligt självdestruktiv handling (självmord)']
+                diagnoseIdAndName[e['id']] = 'Dödsorsak: ' + e['text']    # Returns average numbers of suicides per year per region
+            diagnoseIdAndName['2026'] = ['Dödsorsak: Avsiktligt självdestruktiv handling (självmord)']
         return json.dumps(diagnoseIdAndName)
     # as a Dictionary of key-value pairs.
     def getSuicideDict(self):
