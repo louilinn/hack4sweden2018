@@ -28,7 +28,6 @@ var region_by_code = {
     '24': "Västerbottens län",
     '25': "Norrbottens län"
    };
-   console.log(region_by_code);
 
 
 function getDataSets(axis) {
@@ -40,12 +39,11 @@ function getData(url, axis) {
     $.ajax({
         url: url,
         method: 'GET',
-        async: false,
-        cache: false,
+        async: true,
+        cache: true,
         timeout: 5000,
         dataType: "json",
         success: function (response) {
-            console.log("success");
             data = response.data;
             description = response.data;
             axis === 'x' ? xDescription = response.description: yDescription = response.description;
@@ -54,10 +52,9 @@ function getData(url, axis) {
             addData(myChart, Object.keys(xData), convertedData);
         },
         complete: function (data) {
-            console.log("completed");
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert('Error connecting to the Node.js server... ' + textStatus + " " + errorThrown);
+            alert('Error connecting to the server... ' + textStatus + " " + errorThrown);
         }
     });
 };
@@ -129,6 +126,7 @@ function replot(labels, datapoints) {
         // Hover settings
         tooltips: {
             backgroundColor: "#A4A4A4",
+            displayColors: false,
             callbacks: {
                 label: function (tooltipItem, data) {
                     var label = regions[tooltipItem.index] || '';
