@@ -2,6 +2,8 @@
 var xData = {};
 var yData = {};
 var regions = [];
+var xDescription = '';
+var yDescription = '';
 
 
 function getDataSets(axis) {
@@ -17,10 +19,12 @@ function getData(url, axis) {
         cache: false,
         timeout: 5000,
         dataType: "json",
-        success: function (data) {
+        success: function (response) {
             console.log("success");
             console.log("NY DATA:");
-            console.log(data);
+            data = response.data;
+            description = response.data;
+            axis === 'x' ? xDescription = response.description: yDescription = response.description;
             axis === "x" ? xData = data : yData = data;
             convertedData = convertToPlotFormat(xData, yData);
             addData(myChart, Object.keys(xData), convertedData);
@@ -85,7 +89,7 @@ function replot(labels, datapoints) {
                 },
                 scaleLabel: {
                     display: true,
-                    labelString: $("#x :selected").text()
+                    labelString: xDescription //$("#x :selected").text()
                 }
             }],
             yAxes: [{
@@ -94,7 +98,7 @@ function replot(labels, datapoints) {
                 },
                 scaleLabel: {
                     display: true,
-                    labelString: $("#y :selected").text()
+                    labelString: yDescription //$("#y :selected").text()
                 }
             }]
         },

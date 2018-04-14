@@ -36,8 +36,12 @@ class scbRequest:
                     values = [float(s) for s in string_values]
                     average = round(sum(values)/len(values),2)
                     data_by_region[regions[i]] = average
-                print(data_by_region)
-                return json.dumps(data_by_region)
+
+                response = {
+                    'description': 'Genomsnittlig arbetslöshet 2005-2017 [%]',
+                    'data': data_by_region
+                }
+                return json.dumps(response)
             else:
                 print("NO MATCH!")
         else:
