@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "chart.js": "^2.7.2",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "node-correlation": "^1.0.2"
   }
 }

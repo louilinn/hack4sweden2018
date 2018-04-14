@@ -34,7 +34,7 @@ var region_by_code = {
 function getDataSets(axis) {
     url = $("#" + axis + " :selected").val();
     getData(url, axis);
-}
+};
 
 function getData(url, axis) {
     $.ajax({
@@ -47,6 +47,7 @@ function getData(url, axis) {
         success: function (response) {
             console.log("success");
             data = response.data;
+
             description = response.data;
             axis === 'x' ? xDescription = response.description: yDescription = response.description;
             axis === "x" ? xData = data : yData = data;
