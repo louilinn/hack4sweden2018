@@ -3,17 +3,19 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8" /> <!--Swedish charset-->
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>korrelationskollen</title>
 </head>
 
-<body>
+<body style="background-color: cornsilk;">
+  <div style="padding-left: 21%;padding-right: 21%;padding-top: 3%;">
     <div id="info">
-        <h1>Välkommen till korrelationskollen!</h1>
+        <h1 id="head">Välkommen till korrelationskollen!</h1>
         <p>Här kan du enkelt välja olika faktorer och se hur de korrelerar!</p>
 
     </div>
     <span>
-        <div>
+        <div style="padding:1%;">
             X-axel
             <select id="x">
                 <option>Välj en faktor</option>
@@ -21,7 +23,7 @@
                 <option value="/scbFortune">Förmögenhet</option>
             </select>
         </div>
-        <div>
+        <div style="padding:1%;">
             Y-axel
             <select id="y">
                 <option>Välj en faktor</option>
@@ -35,10 +37,14 @@
             inte ett samband mellan orsak och verkan. Faktorer kan till exempel samvariera p.g.a. att de har gemensamma orsaker
             och andra komplexa indirekta samband.</p>
     </div>
-
-    <div id="data">
+    <hr style:="margin-top:3%;">
+    <div id="data" style="margin-top: 3%; margin-left: -2%;">
         <canvas id="myChart"></canvas>
     </div>
+    <hr style:="margin-top:3%;">
+    <div id="footer">
+    </div>
+  </div>
 </body>
 
 </html>

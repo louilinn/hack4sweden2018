@@ -1,0 +1,16 @@
+.body {
+  padding: 5%;
+}
+
+.data {
+  margin-top: 3%;
+}
+
+@font-face {
+  font-family: sp;
+  src: url('SP.TFF');
+}
+#head {
+
+   font-family: sp;
+}
