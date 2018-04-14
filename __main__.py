@@ -1,12 +1,11 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 from socStyrelsenRequest.socRequest import SocRequest
+from scbSource.scbRequest import scbRequest
 
 class GetHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-
-        # Här är funktionen!
 
         if(self.path.startswith('/socDiagnoses')):
             self.send_response(200)
@@ -35,6 +34,7 @@ class GetHandler(BaseHTTPRequestHandler):
                 self.wfile.write("(404) Invalid Soc Diagnose Code".encode('utf-8'))
 
         elif(self.path.startswith('/scb')):
+            diagnose = self.path.strip('/soc')
             jsonData = None
             try:
                 jsonData = scbRequest().getJSON().encode('utf-8')
@@ -50,7 +50,7 @@ class GetHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-Type',
                              'text/plain; charset=utf-8')
                 self.end_headers()
-                self.wfile.write("(404) Invalid SCB request".encode('utf-8'))
+                self.wfile.write("(404) Invalid Soc Diagnose Code".encode('utf-8'))
 
         elif(self.path.startswith('/')):
             if self.path == '/':
@@ -60,7 +60,7 @@ class GetHandler(BaseHTTPRequestHandler):
             self.send_header('Content-Type',
                          'text/html; charset=utf-8')
             self.end_headers()
-            self.wfile.write(open("./app" + self.path).read().encode('utf-8'))
+            self.wfile.write(open("./app" + self.path).read().encode('ISO-8859-1'))
 
 
 
