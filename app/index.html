@@ -16,24 +16,25 @@
 <script type="text/javascript">
 
 var ctx = document.getElementById("myChart");
+const radius = 10;
 
-var datapoints = [{
-    x: 2,
-    y: 1,
-    r: 10
-  }, {
-    x: 1,
-    y: 1,
-    r: 10
-  }, {
-    x: 2,
-    y: 5,
-    r:10
-  }, {
-    x: 9,
-    y: 8,
-    r: 10
-  }];
+const factor1 = {"1": 222.5, "2": 100, "3": 36.3, "4": 33.0};
+const factor2 = {"1": 22, "3": 3.3, "4": 3.1, "5": 3.0};
+
+function intersectionKeys(o1, o2){
+    return Object.keys(o1).filter(key => key in o2)
+};
+
+const commonKeys = intersectionKeys(factor1, factor2);
+
+datapoints = [];
+commonKeys.forEach((key) => {
+  datapoints.push({
+    x: factor1[key],
+    y: factor2[key],
+    r: radius
+  });
+})
 
 var data = {
   datasets: [{
