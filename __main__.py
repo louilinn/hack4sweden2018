@@ -54,7 +54,7 @@ class GetHandler(BaseHTTPRequestHandler):
             self.send_header('Content-Type',
                          'text/html; charset=utf-8')
             self.end_headers()
-            self.wfile.write(open("./app" + self.path).read().encode('utf-8'))
+            self.wfile.write(open("./app" + self.path).read().encode('ISO-8859-1'))
 
 
 
