@@ -5,38 +5,43 @@ class SocRequest:
 
     API_URL = 'http://sdb.socialstyrelsen.se/api/v1/sv/'
 
-    def __init__(self):
-        self.REGION = 0
-        self.GENDER = 3
-        self.YEAR = 2016
-        self.DIAGNOSE = 2026
-        self.MAX_ENTRIES = 100
+    #def __init__(self):
 
-    def printHeader(self):
-        print("Region:", self.REGION)
-        print("Kön:", self.GENDER)
-        print("Diagnos:", self.DIAGNOSE)
-        print("År\tAntal")
 
-    def printYearTotal(self, year):
-        requestURL = self.API_URL + 'dodsorsaker/resultat/matt/2'\
-                + '/diagnos/' + str(self.DIAGNOSE) \
-                + '/region/' + str(self.REGION) \
-                + '/kon/' + str(self.GENDER) \
-                + '/ar/' + str(year) \
-                + '/?per_sida=' + str(self.MAX_ENTRIES) + '&sida=1'
+    def getSuicideDict(self):
+
+        #
+        REGION_STR = '1,3,4,5,6,7,8,9,10,12,13,14,' \
+                '17,18,19,20,21,22,23,24,25'
+        YEAR_STR = '2007,2008,2009,2010,2011,2012,2013,2014,2015,2016'
+        antalAr = 10
+
+        requestURL = self.API_URL + 'dodsorsaker/resultat/matt/1'\
+                + '/diagnos/2026/kon/3' \
+                + '/region/' + REGION_STR\
+                + '/ar/' + YEAR_STR
 
         response = requests.get(requestURL)
+        suicideJson = response.json()
 
         if(response.status_code == 200):
-            jsonDict = response.json()
-            jsonData = jsonDict['data']
+            suicideDictData = suicideJson['data']
 
-            totalVarde = 0
-            for i in jsonData:
-                totalVarde += float(i['varde'].replace(',', '.', 1))
+            totalRegionDict = {}
+            for e in suicideDictData:
+                if int(e['regionId']) in totalRegionDict:
+                    totalRegionDict[int(e['regionId'])] += int(e['varde'])
+                else:
+                    totalRegionDict[int(e['regionId'])] = int(e['varde'])
 
-            print(year, "\t" + str(round(totalVarde, 2)))
+            for key in totalRegionDict:
+                totalRegionDict[key] = round(totalRegionDict[key]/3, 2)
+
+            return(totalRegionDict)
 
         else:
-            print("Request Failed (200)")
+            print("Request Failed: ", response.status_code)
+            # TODO: Raise exception or something.
+
+    def getSuicideJson(self):
+        return json.dumps(self.getSuicideDict())
