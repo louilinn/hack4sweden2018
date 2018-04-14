@@ -15,6 +15,7 @@ var region_by_code = {
     '6': "Jönköpings län",
     '7': "Kronobergs län",
     '8': "Kalmar län",
+    '9': "Gotlands län",
     '10': "Blekinge län",
     '12': "Skåne län",
     '13': "Hallands län",
@@ -28,7 +29,7 @@ var region_by_code = {
     '23': "Jämtlands län",
     '24': "Västerbottens län",
     '25': "Norrbottens län"
-   };
+};
 
 
 function getDataSets(axis) {
@@ -47,7 +48,7 @@ function getData(url, axis) {
         success: function (response) {
             data = response.data;
             description = response.data;
-            axis === 'x' ? xDescription = response.description: yDescription = response.description;
+            axis === 'x' ? xDescription = response.description : yDescription = response.description;
             axis === "x" ? xData = data : yData = data;
             convertedData = convertToPlotFormat(xData, yData);
             addData(myChart, Object.keys(xData), convertedData);
@@ -75,6 +76,7 @@ function convertToPlotFormat(factor1, factor2) {
         return Object.keys(o1).filter(key => key in o2)
     };
     region_codes = intersectionKeys(factor1, factor2);
+    console.log(region_codes);
     datapoints = [];
     region_codes.forEach((key) => {
         datapoints.push({
@@ -130,15 +132,15 @@ function replot(labels, datapoints) {
             displayColors: false,
             callbacks: {
                 label: function (tooltipItem, data) {
-                    var label = region_by_code[region_codes[tooltipItem.index]] || '';
-
+                    console.log(tooltipItem.index);
+                    console.log(region_codes[tooltipItem.index]);
+                    var label = region_by_code[region_codes[tooltipItem.index]] + ': ' || '';
                     if (label) {
-                        label += ': [';
+                        label = [label];
+                        var coordinates = '['+Math.round(tooltipItem.xLabel, 1) + ', ' + Math.round(tooltipItem.yLabel, 1)+']';
+                        label.push(coordinates);
                     }
-                    label += Math.round(tooltipItem.xLabel);
-                    label += ', ';
-                    label += Math.round(tooltipItem.yLabel);
-                    label += ']'
+
                     return label;
                 }
             }
