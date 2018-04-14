@@ -1,14 +1,21 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 from socStyrelsenRequest.socRequest import SocRequest
-from scbSource.scbRequest import scbRequest
 
 class GetHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
 
+        # Här är funktionen!
 
-        if(self.path.startswith('/soc')):
+        if(self.path.startswith('/socDiagnoses')):
+            self.send_response(200)
+            self.send_header('Content-Type',
+                    'application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(SocRequest().getDiagnoseIdAndName().encode('utf-8'))
+
+        elif(self.path.startswith('/soc')):
             diagnose = self.path.strip('/soc')
             jsonData = None
             try:
@@ -53,7 +60,7 @@ class GetHandler(BaseHTTPRequestHandler):
             self.send_header('Content-Type',
                          'text/html; charset=utf-8')
             self.end_headers()
-            self.wfile.write(open("./app" + self.path).read().encode('ISO-8859-1'))
+            self.wfile.write(open("./app" + self.path).read().encode('utf-8'))
 
 
 
