@@ -15,11 +15,22 @@ class GetHandler(BaseHTTPRequestHandler):
 
         elif(self.path.startswith('/soc')):
             diagnose = self.path.strip('/soc')
-            self.send_response(200)
-            self.send_header('Content-Type',
-                         'application/json; charset=utf-8')
-            self.end_headers()
-            self.wfile.write(SocRequest().getDiagnoseJson(diagnose).encode('utf-8'))
+            jsonData = None
+            try:
+                jsonData = SocRequest().getDiagnoseJson(diagnose).encode('utf-8')
+
+                self.send_response(200)
+                self.send_header('Content-Type',
+                        'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(jsonData)
+
+            except Exception as e:
+                self.send_response(404)
+                self.send_header('Content-Type',
+                             'text/plain; charset=utf-8')
+                self.end_headers()
+                self.wfile.write("(404) Invalid API Path".encode('utf-8'))
 
         else:
             self.send_response(404)
