@@ -39,7 +39,7 @@ class SocRequest:
                 totalRegionDict[key] = round(float(totalRegionDict[key])/antalAr, 2)
 
             descAndData = {
-                'description': 'foo',
+                'description': self.getDiagnoseTitel(diagnose) + ' (per 100 tusen invånare 2006-2016)',
                 'data': totalRegionDict
             }
             return(descAndData)
@@ -53,6 +53,12 @@ class SocRequest:
     def getDiagnoseJson(self, diagnose):
         return json.dumps(self.getDiagnoseDict(diagnose))
 
+    def getDiagnoseTitel(self, diagnose):
+        URL = 'http://sdb.socialstyrelsen.se/api/v1/sv/dodsorsaker/diagnos/' + diagnose
+        response = requests.get(URL)
+        json = response.json()
+        return('Dödsorsak: ' + json[0]['text'])
+
     def getDiagnoseIdAndName(self):
         diagnoseURL = 'http://sdb.socialstyrelsen.se/api/v1/sv/dodsorsaker/diagnos'
         diagnoseResponse = requests.get(diagnoseURL) # Returnerar 200
@@ -61,8 +67,8 @@ class SocRequest:
         diagnoseIdAndName = {}
         for e in diagnoseJson:
             if len(e['id']) < 3:
-                diagnoseIdAndName[e['id']] = e['text']    # Returns average numbers of suicides per year per region
-            diagnoseIdAndName['2026'] = ['Avsiktligt självdestruktiv handling (självmord)']
+                diagnoseIdAndName[e['id']] = 'Dödsorsak: ' + e['text']    # Returns average numbers of suicides per year per region
+            diagnoseIdAndName['2026'] = ['Dödsorsak: Avsiktligt självdestruktiv handling (självmord)']
         return json.dumps(diagnoseIdAndName)
     # as a Dictionary of key-value pairs.
     def getSuicideDict(self):

@@ -20,9 +20,7 @@ function init() {
 };
 
 function createDropdown(data) {
-    console.log(data);
     for (d in data) {
-        console.log("<option value=\"/soc" + d + "\">" + data[d] + "</option>");
         $("#x").append("<option value=\"/soc" + d + "\">" + data[d] + "</option>");
         $("#y").append("<option value=\"/soc" + d + "\">" + data[d] + "</option>");
     }
