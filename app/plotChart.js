@@ -2,6 +2,7 @@
 var xData = {};
 var yData = {};
 var regions = [];
+var region_codes = [];
 var xDescription = '';
 var yDescription = '';
 
@@ -28,7 +29,6 @@ var region_by_code = {
     '24': "Västerbottens län",
     '25': "Norrbottens län"
    };
-   console.log(region_by_code);
 
 
 function getDataSets(axis) {
@@ -76,9 +76,9 @@ function convertToPlotFormat(factor1, factor2) {
     function intersectionKeys(o1, o2) {
         return Object.keys(o1).filter(key => key in o2)
     };
-    const commonKeys = intersectionKeys(factor1, factor2);
+    region_codes = intersectionKeys(factor1, factor2);
     datapoints = [];
-    commonKeys.forEach((key) => {
+    region_codes.forEach((key) => {
         datapoints.push({
             x: factor1[key],
             y: factor2[key],
@@ -131,14 +131,15 @@ function replot(labels, datapoints) {
             backgroundColor: "#A4A4A4",
             callbacks: {
                 label: function (tooltipItem, data) {
-                    var label = regions[tooltipItem.index] || '';
+                    var label = region_by_code[region_codes[tooltipItem.index]] || '';
 
                     if (label) {
-                        label += ': ';
+                        label += ': [';
                     }
                     label += Math.round(tooltipItem.xLabel);
-                    label += ", ";
+                    label += ', ';
                     label += Math.round(tooltipItem.yLabel);
+                    label += ']'
                     return label;
                 }
             }
