@@ -38,7 +38,6 @@ subject areas, there are most likely correlations to be found and evaluated!
 - Use more data for the correlation calculations (match time periods)
 - Extend the functionality to handle data for each municipality in Sweden for example.
 - Map visualizations.
-More data
 
 # TEAM MUMEÅ
 
