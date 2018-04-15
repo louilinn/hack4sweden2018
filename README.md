@@ -40,10 +40,10 @@ subject areas, there are most likely correlations to be found and evaluated!
 - Map visualizations.
 
 ## How to Run
-	- Go to the root directory and run: ```$ python3 __main__.py```
-	- This starts the webserver and now you can run the web application locally by browsing to localhost:8080.
-	- The api is available at localhost:8080/scb<Unemployment|Fortune> and /soc<DiagnoseID>
-	- DiagnoseID's can be found at: http://sdb.socialstyrelsen.se/api/v1/sv/dodsorsaker/diagnos
+- Go to the root directory and run: ```$ python3 __main__.py```
+- This starts the webserver and now you can run the web application locally by browsing to localhost:8080.
+- The api is available at localhost:8080/scb<Unemployment|Fortune> and /soc<DiagnoseID>
+- DiagnoseID's can be found at: http://sdb.socialstyrelsen.se/api/v1/sv/dodsorsaker/diagnos
 
 # TEAM MUMEÅ
 
