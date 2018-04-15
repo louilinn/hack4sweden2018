@@ -15,7 +15,7 @@
  *  @param  {string}  p2 Item two for comparison.
  *  @return {float}  The pearson correlation score.
  */
-function pearsonCorrelation(prefs, p1, p2) {
+export function pearsonCorrelation(prefs, p1, p2) {
   var si = [];
 
   for (var key in prefs[p1]) {

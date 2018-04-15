@@ -1,10 +1,13 @@
 // IMPORTED DATA (or mock data)
+
 var xData = {};
 var yData = {};
 var regions = [];
 var region_codes = [];
 var xDescription = '';
 var yDescription = '';
+var correlation_value = 0;
+correlation(xData, yData);
 
 var region_by_code = {
     '0': "Riket",
@@ -51,8 +54,10 @@ function getData(url, axis) {
             description = response.data;
             axis === 'x' ? xDescription = response.description : yDescription = response.description;
             axis === "x" ? xData = data : yData = data;
+            console.log(xData, yData);
             convertedData = convertToPlotFormat(xData, yData);
             addData(myChart, Object.keys(xData), convertedData);
+            correlation(xData, yData);
         },
         complete: function (data) {
         },
@@ -67,17 +72,33 @@ function addData(chart, labels, data) {
     myBubbleChart = replot(labels, data);
 };
 
+function intersectionKeys(o1, o2) {
+    return Object.keys(o1).filter(key => key in o2)
+};
+
+function correlation(xData, yData) {
+  x = [];
+  y = [];
+  console.log(region_codes);
+  region_codes.forEach((code) => {
+    x.push(xData[code]);
+    y.push(yData[code]);
+  });
+  var data = new Array(x, y);
+  console.log(data);
+  correlation_value = pearsonCorrelation(data,0,1).toFixed(3);
+  console.log(correlation_value);
+  var div = document.getElementById("corr");
+  div.innerHTML = "<h2>Korrelationen är: " + correlation_value +"</h2>";
+};
+
 // GRAPHICAL SETUP AND PARAMETERS
 var ctx = document.getElementById("myChart");
 const radius = 10;
 
 // PARSING DATA
 function convertToPlotFormat(factor1, factor2) {
-    function intersectionKeys(o1, o2) {
-        return Object.keys(o1).filter(key => key in o2)
-    };
-    region_codes = intersectionKeys(factor1, factor2);
-    console.log(region_codes);
+  region_codes = intersectionKeys(factor1, factor2);
     datapoints = [];
     region_codes.forEach((key) => {
         datapoints.push({
@@ -163,3 +184,46 @@ $("select").change(function (e) {
     getDataSets(e.target.id);
     myBubbleChart.update();
 })
+
+// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+function pearsonCorrelation(prefs, p1, p2) {
+  var si = [];
+
+  for (var key in prefs[p1]) {
+    if (prefs[p2][key]) si.push(key);
+  }
+
+  var n = si.length;
+
+  if (n == 0) return 0;
+
+  var sum1 = 0;
+  for (var i = 0; i < si.length; i++) sum1 += prefs[p1][si[i]];
+
+  var sum2 = 0;
+  for (var i = 0; i < si.length; i++) sum2 += prefs[p2][si[i]];
+
+  var sum1Sq = 0;
+  for (var i = 0; i < si.length; i++) {
+    sum1Sq += Math.pow(prefs[p1][si[i]], 2);
+  }
+
+  var sum2Sq = 0;
+  for (var i = 0; i < si.length; i++) {
+    sum2Sq += Math.pow(prefs[p2][si[i]], 2);
+  }
+
+  var pSum = 0;
+  for (var i = 0; i < si.length; i++) {
+    pSum += prefs[p1][si[i]] * prefs[p2][si[i]];
+  }
+
+  var num = pSum - (sum1 * sum2 / n);
+  var den = Math.sqrt((sum1Sq - Math.pow(sum1, 2) / n) *
+      (sum2Sq - Math.pow(sum2, 2) / n));
+
+  if (den == 0) return 0;
+
+  return num / den;
+}
