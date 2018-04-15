@@ -86,7 +86,7 @@ function correlation(xData, yData) {
   });
   var data = new Array(x, y);
   console.log(data);
-  correlation_value = pearsonCorrelation(data,0,1).toFixed(3);
+  correlation_value = pearsonCorrelation(data,0,1).toFixed(2);
   console.log(correlation_value);
   var div = document.getElementById("corr");
   div.innerHTML = "<h2>Korrelationen är: " + correlation_value +"</h2>";
@@ -186,7 +186,24 @@ $("select").change(function (e) {
 })
 
 // --------------------------------------------------------------------------
+//--------------- CORRELATION FUNCTION --------------------------------------
 //---------------------------------------------------------------------------
+/**
+ *  @fileoverview Pearson correlation score algorithm.
+ *  @author matt.west@kojilabs.com (Matt West)
+ *  @license Copyright 2013 Matt West.
+ *  Licensed under MIT (http://opensource.org/licenses/MIT).
+ */
+
+/**
+ *  Calculate the person correlation score between two items in a dataset.
+ *
+ *  @param  {object}  prefs The dataset containing data about both items that
+ *                    are being compared.
+ *  @param  {string}  p1 Item one for comparison.
+ *  @param  {string}  p2 Item two for comparison.
+ *  @return {float}  The pearson correlation score.
+ */
 function pearsonCorrelation(prefs, p1, p2) {
   var si = [];
 

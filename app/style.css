@@ -1,4 +1,5 @@
-.body {
+/*is applied when opening index.html directly but not through python server*/
+body {
   padding: 5%;
 }
 
