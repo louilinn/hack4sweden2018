@@ -26,8 +26,16 @@ The main challenge was to find relevant data, that was both accessible in a mana
 and had the right geographical resolution (Sweden's 21 regions in our case).
 
 ### Accomplishments
-We managed to write a generalized API that can access the data that is available,
-which means that it will be updated when the data sources are.
+The application is functioning prototype and can be used as intended with more than 20 parameters.
+**Features**
+* Choosing two parameters from a drop-down menu
+* Instantly plots the two categories in a graph
+* When a changing a parameter, the view is asynchronically updated
+* Correlation value between the parameters is clearly displayed
+* Each datapoint is for a certain region and which region is shown when hovering over the points in the graph
+* SCB data for other parameters can easily be added to the project
+* All available data categories for cause of death from Socialstyrelsen are automatically detected and added to the drop-down and will thus dynamically update if changed at Socialstyrelsen. (We used aggregated categories but up to 1900 parameters at the moment can be found there.)
+
 
 ### What we learned
 We learned the potential in looking at data from different sources, since even though the governmental agencies have their separate
