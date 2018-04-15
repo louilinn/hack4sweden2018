@@ -50,6 +50,7 @@ subject areas, there are most likely correlations to be found and evaluated!
 ## Nimer
 	Backend
 	CSS
+	Architecture
 
 ## Louise
 	Backend
