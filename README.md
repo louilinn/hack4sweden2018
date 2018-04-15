@@ -12,7 +12,7 @@ health beneficial factors.
 ### What it does
 The application "Korrelationskollen" gathers data from Socialstyrelsen and Statistiska Centralbyrån
 where the former provides causes of death and the latter factors like unemployment and economic fortune.
-By choosing two factors, the data is averaged for each county in Sweden and presented in
+By choosing two factors, the data is averaged for each region (län) in Sweden and presented in
 a graph for easy visualization. The correlation between the two dataseries is calculated and presented as well.
 
 
@@ -23,7 +23,7 @@ We used a python server coupled with a simple javascript app.
 
 ### Challenges we run into
 The main challenge was to find relevant data, that was both accessible in a managable format
-and had the right geographical resolution (Sweden's 21 counties in our case).
+and had the right geographical resolution (Sweden's 21 regions in our case).
 
 ### Accomplishments
 We managed to write a generalized API that can access the data that is available, 
