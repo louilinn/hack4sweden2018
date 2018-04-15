@@ -2,10 +2,10 @@
 The different Swedish governments agencies have a variety of data open for the public.
 They are however not aggregated in the same place, but rather the different institutions have their own data
 access points. This makes it difficult to gather and compare data from several actors, which
-have the possibility to give new insight into the state of Sweden and its population. 
-Our mission was to combine different data to see wether any correlation 
+have the possibility to give new insight into the state of Sweden and its population.
+Our mission was to combine different data to see wether any correlation
 could be found between
-health data and other factors in order to indentify and visualize 
+health data and other factors in order to indentify and visualize
 health beneficial factors.
 
 
@@ -17,7 +17,7 @@ a graph for easy visualization. The correlation between the two dataseries is ca
 
 
 ### How we build it
-With a strong backend knowledge base, the focus was put on building an API 
+With a strong backend knowledge base, the focus was put on building an API
 that could be used with different user interfaces, or as input to other applications.
 We used a python server coupled with a simple javascript app.
 
@@ -26,7 +26,7 @@ The main challenge was to find relevant data, that was both accessible in a mana
 and had the right geographical resolution (Sweden's 21 regions in our case).
 
 ### Accomplishments
-We managed to write a generalized API that can access the data that is available, 
+We managed to write a generalized API that can access the data that is available,
 which means that it will be updated when the data sources are.
 
 ### What we learned
@@ -38,6 +38,12 @@ subject areas, there are most likely correlations to be found and evaluated!
 - Use more data for the correlation calculations (match time periods)
 - Extend the functionality to handle data for each municipality in Sweden for example.
 - Map visualizations.
+
+## How to Run
+	- Go to the root directory and run: ```$ python3 __main__.py```
+	- This starts the webserver and now you can run the web application locally by browsing to localhost:8080.
+	- The api is available at localhost:8080/scb<Unemployment|Fortune> and /soc<DiagnoseID>
+	- DiagnoseID's can be found at: http://sdb.socialstyrelsen.se/api/v1/sv/dodsorsaker/diagnos
 
 # TEAM MUMEÅ
 
