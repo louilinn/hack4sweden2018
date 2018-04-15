@@ -27,6 +27,7 @@ and had the right geographical resolution (Sweden's 21 regions in our case).
 
 ### Accomplishments
 The application is functioning prototype and can be used as intended with more than 20 parameters.
+
 **Features**
 * Choosing two parameters from a drop-down menu
 * Instantly plots the two categories in a graph
